@@ -1,0 +1,12 @@
+.DS_Store
+*.swp
+*.swo
+*~
+.swiftpm/
+.build/
+.build/debug/
+.build/release/
+Packages/
+*.xcworkspace
+xcuserdata/
+Pods/
