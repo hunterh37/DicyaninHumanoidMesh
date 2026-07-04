@@ -135,7 +135,7 @@ public final class HumanoidEntity {
 
     /// Rotation axis for a joint: arms swing in the frontal plane (Z), legs in the
     /// sagittal plane (X).
-    public static func rotationAxis(for part: BodyPart) -> SIMD3<Float> {
+    nonisolated public static func rotationAxis(for part: BodyPart) -> SIMD3<Float> {
         switch part {
         case .thigh_L, .thigh_R, .shin_L, .shin_R, .forearm_L, .forearm_R:
             // Legs and knees bend in the sagittal plane; elbows bend forward.
@@ -153,7 +153,13 @@ public final class HumanoidEntity {
     /// Drives the skeleton by rotating each joint pivot. Used both for instant
     /// pose changes and for per-frame pose transitions.
     public static func applyAngles(_ angles: JointAngles, to root: Entity) {
-        for part in BodyPart.allCases {
+        applyAngles(angles, to: root, parts: BodyPart.allCases)
+    }
+
+    /// Applies angles to a subset of joints only, so callers can layer other
+    /// drivers (hand-tracking arm aim, head look) on top of locomotion.
+    nonisolated public static func applyAngles(_ angles: JointAngles, to root: Entity, parts: [BodyPart]) {
+        for part in parts {
             guard let joint = root.findEntity(named: "joint_" + part.rawValue) else { continue }
             joint.orientation = simd_quatf(angle: angles[part], axis: rotationAxis(for: part))
         }
