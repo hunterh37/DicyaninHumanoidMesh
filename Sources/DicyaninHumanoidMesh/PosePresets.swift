@@ -40,6 +40,14 @@ public enum PosePreset: CaseIterable, Sendable {
     case pressWall
     case funnyPose
     case secretPose
+    // Emote reaction poses, one per EmoteKind. Deterministic so every peer
+    // reproduces the same body language from the networked emote alone.
+    case bigWave
+    case heartHands
+    case handOutreach
+    case laughing
+    case fireArms
+    case shrug
 
     public var jointAngles: JointAngles {
         switch self {
@@ -147,6 +155,54 @@ public enum PosePreset: CaseIterable, Sendable {
             j[.thigh_R] = -.pi / 4
             j[.torso] = .pi / 4
             return j
+        case .bigWave:
+            // Right arm raised overhead, forearm cocked to wave.
+            var j = JointAngles()
+            j[.upperArm_R] = .pi * 3 / 4
+            j[.forearm_R] = -.pi / 6
+            j[.upperArm_L] = .pi / 12
+            j[.torso] = -.pi / 16
+            return j
+        case .heartHands:
+            // Both hands drawn up to the chest.
+            var j = JointAngles()
+            j[.upperArm_L] = -.pi / 3
+            j[.upperArm_R] = .pi / 3
+            j[.forearm_L] = -.pi / 2
+            j[.forearm_R] = -.pi / 2
+            return j
+        case .handOutreach:
+            // Right arm reaches out and forward, offering a thumbs-up.
+            var j = JointAngles()
+            j[.upperArm_R] = .pi / 2
+            j[.forearm_R] = -.pi / 2
+            j[.torso] = -.pi / 16
+            return j
+        case .laughing:
+            // Lean back, arms loose at the sides.
+            var j = JointAngles()
+            j[.torso] = -.pi / 7
+            j[.upperArm_L] = -.pi / 7
+            j[.upperArm_R] = .pi / 7
+            j[.forearm_L] = -.pi / 3
+            j[.forearm_R] = -.pi / 3
+            return j
+        case .fireArms:
+            // Both arms thrown up in celebration.
+            var j = JointAngles()
+            j[.upperArm_L] = -.pi * 3 / 4
+            j[.upperArm_R] = .pi * 3 / 4
+            j[.forearm_L] = -.pi / 4
+            j[.forearm_R] = -.pi / 4
+            return j
+        case .shrug:
+            // Palms-up shrug for a questioning reaction.
+            var j = JointAngles()
+            j[.upperArm_L] = -.pi / 5
+            j[.upperArm_R] = .pi / 5
+            j[.forearm_L] = -.pi / 2
+            j[.forearm_R] = -.pi / 2
+            return j
         }
     }
 
@@ -169,6 +225,12 @@ public enum PosePreset: CaseIterable, Sendable {
         case .pressWall: return String(localized: "Press Wall")
         case .funnyPose: return String(localized: "Funny")
         case .secretPose: return String(localized: "???")
+        case .bigWave: return String(localized: "Big Wave")
+        case .heartHands: return String(localized: "Heart Hands")
+        case .handOutreach: return String(localized: "Hand Outreach")
+        case .laughing: return String(localized: "Laughing")
+        case .fireArms: return String(localized: "Fire Arms")
+        case .shrug: return String(localized: "Shrug")
         }
     }
 }
