@@ -10,3 +10,7 @@ Packages/
 *.xcworkspace
 xcuserdata/
 Pods/
+build/
+.DS_Store
+.swiftpm/
+DerivedData/
